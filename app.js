@@ -4,9 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var login = require('./routes/login');
+var register = require('./routes/register');
+var search = require('./routes/search');
 
 var app = express();
 
@@ -22,8 +26,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//connection with the mongoose database
+mongoose.connect('mongodb://localhost:27017/orphanageDB');
+
 app.use('/', routes);
 app.use('/users', users);
+app.use('/login',login);
+app.use('/register',register);
+app.use('/search',search);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
